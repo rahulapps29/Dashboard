@@ -1,42 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const themeToggle = document.getElementById("themeToggle");
   const nameSelect = document.getElementById("nameSelect");
   const totalAmount = document.getElementById("totalAmount");
   const transactionList = document.getElementById("transactionList");
   const ctx = document.getElementById("transactionChart").getContext("2d");
   let transactionChart;
 
+  // Initialize theme (default to dark mode)
+  const currentTheme = localStorage.getItem("theme") || "dark";
+  document.body.classList.add(`${currentTheme}-mode`);
+  themeToggle.textContent = currentTheme === "light" ? "🌙" : "☀️";
+
+  // Toggle theme
+  themeToggle.addEventListener("click", () => {
+    const isDarkMode = document.body.classList.toggle("dark-mode");
+    document.body.classList.toggle("light-mode", !isDarkMode);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    themeToggle.textContent = isDarkMode ? "☀️" : "🌙";
+  });
+
   // Fetch all names and populate the dropdown
-  const populateDropdown = async () => {
-    try {
-      const response = await fetch("/api/tasks");
-      const data = await response.json();
-      console.log("Fetched Data:", data);
-
+  fetch("/api/tasks")
+    .then((response) => response.json())
+    .then((data) => {
       const uniqueNames = [...new Set(data.map((item) => item.name))];
-      if (uniqueNames.length === 0) {
-        console.error("No unique names found!");
-        return;
-      }
-
       uniqueNames.forEach((name) => {
         const option = document.createElement("option");
         option.value = name;
         option.textContent = name;
         nameSelect.appendChild(option);
       });
-      console.log("Dropdown populated successfully.");
-    } catch (error) {
-      console.error("Error fetching names:", error);
-    }
-  };
-
-  // Ensure touch compatibility for mobile
-  nameSelect.addEventListener("touchstart", () => {
-    nameSelect.focus();
-  });
-
-  // Populate the dropdown
-  populateDropdown();
+    })
+    .catch((error) => console.error("Error fetching names:", error));
 
   // Create or update the chart
   function updateChart(data) {
@@ -64,50 +59,40 @@ document.addEventListener("DOMContentLoaded", () => {
       options: {
         responsive: true,
         plugins: {
-          legend: {
-            position: "top",
-          },
-          title: {
-            display: true,
-            text: "Transaction Summary",
-          },
+          legend: { position: "top" },
+          title: { display: true, text: "Transaction Summary" },
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
+        scales: { y: { beginAtZero: true } },
       },
     });
   }
 
   // Event listener for dropdown change
-  nameSelect.addEventListener("change", async () => {
+  nameSelect.addEventListener("change", () => {
     const selectedName = nameSelect.value;
 
     if (selectedName) {
-      try {
-        const response = await fetch(`/api/tasks?name=${selectedName}`);
-        const data = await response.json();
-        console.log("Filtered Data:", data);
+      fetch(`/api/tasks?name=${selectedName}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // Calculate total amount
+          const total = data.reduce((sum, item) => sum + item.Amt, 0);
+          totalAmount.textContent = total;
 
-        // Calculate total amount
-        const total = data.reduce((sum, item) => sum + item.Amt, 0);
-        totalAmount.textContent = total;
+          // Populate transaction list
+          transactionList.innerHTML = "";
+          data.forEach((item) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = `${item.TransactionDescription}: ${item.Amt}`;
+            transactionList.appendChild(listItem);
+          });
 
-        // Populate transaction list
-        transactionList.innerHTML = "";
-        data.forEach((item) => {
-          const listItem = document.createElement("li");
-          listItem.textContent = `${item.TransactionDescription}: ${item.Amt}`;
-          transactionList.appendChild(listItem);
-        });
-
-        // Update the chart
-        updateChart(data);
-      } catch (error) {
-        console.error("Error fetching filtered data:", error);
-      }
+          // Update the chart
+          updateChart(data);
+        })
+        .catch((error) =>
+          console.error("Error fetching filtered data:", error)
+        );
     }
   });
 });

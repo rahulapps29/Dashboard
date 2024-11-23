@@ -1,7 +1,11 @@
+/* Base styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #121212;
+  color: #ffffff;
 }
 
 .container {
@@ -10,6 +14,19 @@ body {
   margin: auto;
 }
 
+/* Dark mode styles (default) */
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Light mode */
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Common styles */
 h1 {
   text-align: center;
 }
@@ -25,23 +42,37 @@ select {
   padding: 12px;
   margin: 10px 0;
   font-size: 16px;
-  background: #fff;
-  color: #000;
   border: 1px solid #ccc;
   border-radius: 4px;
-  -webkit-appearance: menulist-button;
-  -moz-appearance: menulist-button;
-  appearance: menulist-button;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  background: var(--select-bg);
+  color: var(--select-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-select:focus {
-  border-color: #007bff;
-  outline: none;
+/* Theme-specific variables */
+body.dark-mode select {
+  --select-bg: #333333;
+  --select-color: #ffffff;
 }
 
-option {
-  color: #000;
-  background: #fff;
+body.light-mode select {
+  --select-bg: #ffffff;
+  --select-color: #000000;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
 }
