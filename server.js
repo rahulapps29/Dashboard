@@ -3,7 +3,7 @@ const cors = require("cors");
 const axios = require("axios"); // To fetch data from the external API
 
 const app = express();
-const port = 3000;
+const port = 4000;
 const path = require("path");
 // Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, "public")));
@@ -42,6 +42,6 @@ app.get("/api/tasks", async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running at http://<your-local-ip>:${port}`);
 });

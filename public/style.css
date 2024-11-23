@@ -1,26 +1,47 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
-#summary, #transactions {
-    margin-top: 20px;
+#summary,
+#transactions,
+#chart-container {
+  margin-top: 20px;
 }
 
 select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 16px;
+  background: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-appearance: menulist-button;
+  -moz-appearance: menulist-button;
+  appearance: menulist-button;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+option {
+  color: #000;
+  background: #fff;
 }
