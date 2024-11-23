@@ -7,7 +7,17 @@ const port = 4019;
 const path = require("path");
 
 const cors = require("cors");
-app.use(cors());
+
+const corsOptions = {
+  origin: [
+    "http://<your-local-ip>:4019", // Replace with your local IP address
+    "http://localhost:4019",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 // Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, "public")));
 // Middleware
