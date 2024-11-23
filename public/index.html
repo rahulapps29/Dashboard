@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mobile-Friendly Dashboard</h1>
+        <label for="nameSelect">Select Name:</label>
+        <select id="nameSelect">
+            <option value="">-- Select a Name --</option>
+        </select>
+        <div id="summary">
+            <h2>Summary</h2>
+            <p>Total Amount: <span id="totalAmount">0</span></p>
+        </div>
+        <div id="transactions">
+            <h2>Recent Transactions</h2>
+            <ul id="transactionList"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
