@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
   const nameSelect = document.getElementById("nameSelect");
+  const totalAllAmount = document.getElementById("totalAllAmount");
   const totalAmount = document.getElementById("totalAmount");
   const transactionList = document.getElementById("transactionList");
   const ctx = document.getElementById("transactionChart").getContext("2d");
@@ -19,10 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
     themeToggle.textContent = isDarkMode ? "☀️" : "🌙";
   });
 
-  // Fetch all names and populate the dropdown
+  // Fetch all data and populate the dropdown and total amounts
   fetch("/api/tasks")
     .then((response) => response.json())
     .then((data) => {
+      // Populate dropdown
       const uniqueNames = [...new Set(data.map((item) => item.name))];
       uniqueNames.forEach((name) => {
         const option = document.createElement("option");
@@ -30,8 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
         option.textContent = name;
         nameSelect.appendChild(option);
       });
+
+      // Calculate and display the total amount of all names
+      const totalAll = data.reduce((sum, item) => sum + item.Amt, 0);
+      totalAllAmount.textContent = totalAll.toLocaleString();
     })
-    .catch((error) => console.error("Error fetching names:", error));
+    .catch((error) => console.error("Error fetching data:", error));
 
   // Create or update the chart
   function updateChart(data) {
@@ -80,9 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(`/api/tasks?name=${selectedName}`)
         .then((response) => response.json())
         .then((data) => {
-          // Calculate total amount
+          // Calculate total amount for selected name
           const total = data.reduce((sum, item) => sum + item.Amt, 0);
-          totalAmount.textContent = total;
+          totalAmount.textContent = total.toLocaleString();
 
           // Populate transaction list
           transactionList.innerHTML = "";
