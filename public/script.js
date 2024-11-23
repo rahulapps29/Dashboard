@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch all names and populate the dropdown
   const populateDropdown = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/tasks");
+      const response = await fetch("/api/tasks");
       const data = await response.json();
       console.log("Fetched Data:", data);
 
@@ -87,9 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (selectedName) {
       try {
-        const response = await fetch(
-          `http://localhost:3000/api/tasks?name=${selectedName}`
-        );
+        const response = await fetch(`/api/tasks?name=${selectedName}`);
         const data = await response.json();
         console.log("Filtered Data:", data);
 
