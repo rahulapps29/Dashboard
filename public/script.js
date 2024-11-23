@@ -38,6 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const descriptions = data.map((item) => item.TransactionDescription);
     const amounts = data.map((item) => item.Amt);
 
+    // Create a gradient for the bars
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, "rgba(75, 192, 192, 1)");
+    gradient.addColorStop(1, "rgba(153, 102, 255, 0.8)");
+
     if (transactionChart) {
       transactionChart.destroy();
     }
@@ -50,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "Transaction Amount",
             data: amounts,
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            backgroundColor: gradient,
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
           },
