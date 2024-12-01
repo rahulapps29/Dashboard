@@ -28,7 +28,7 @@ app.use(express.json());
 const fetchData = async () => {
   try {
     const response = await axios.get(
-      "https://leger.rahulluthra.in/api/tasks/d"
+      "https://ledger.rahulluthra.in/api/tasks/d"
     );
     return response.data.tasks;
   } catch (error) {
